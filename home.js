@@ -12,37 +12,30 @@ export function renderHero({t, counts, themes, galaxyName}) {
     <span class="hs-kicker">AGENT SAFETY ATLAS · ${t('THE UNIVERSE', '宇宙')}</span>
     <h1>${t('Every star<br>is a paper.', '每一颗星，<br>都是一篇论文。')}</h1>
     <p>${t(`${counts.works.toLocaleString()} papers on the safety and security of AI agents, placed in three dimensions by what they say: ${counts.galaxies} galaxies, ${counts.clusters} clusters and ${counts.routes.toLocaleString()} observed routes between them.`, `${counts.works.toLocaleString()} 篇关于 AI 智能体安全的论文，按内容放进三维空间：${counts.galaxies} 个星系、${counts.clusters} 个星团，以及它们之间 ${counts.routes.toLocaleString()} 条观测到的航线。`)}</p>
-    <div class="hs-cta"><button class="hs-btn is-primary" data-view="discover">${t('Key findings', '重要发现')} →</button><button class="hs-btn" data-view="papers">${t('Browse the papers', '浏览论文')}</button><button class="hs-btn" data-view="explore">${t('Star map in detail', '详细星图')}</button></div>
+    <div class="hs-cta"><button class="hs-btn is-primary" data-view="synthesis">${t('Key findings', '看核心发现')} →</button><button class="hs-btn" data-view="discover">${t('Observations', '看观察')}</button><button class="hs-btn" data-view="papers">${t('Browse the papers', '浏览论文')}</button><button class="hs-btn" data-view="explore">${t('Star map in detail', '详细星图')}</button></div>
     <p class="hs-hint">${t('Drag to turn the sky · hover a star for its title · click a cluster name to open it', '拖动旋转星空 · 悬停看论文标题 · 点击星团名进入')}</p>
   </div>
   <div class="hs-legend" role="group" aria-label="${t('Galaxies', '星系')}">${themes.map((th, i) => `<button data-hs-theme="${i}" style="--c:${th.color}"><i></i>${esc(galaxyName(th))}</button>`).join('')}</div>
-  <a class="hs-down" href="#home-lenses" aria-label="${t('Scroll to the questions', '向下查看问题')}">↓</a>
+  <a class="hs-down" href="#home-lenses" aria-label="${t('Scroll to how to read the universe', '向下了解怎样读这片宇宙')}">↓</a>
   </section>`;
 }
 
-export function renderHome({t, cards, latest, counts, hero = '', findings = null, dataRelease = null, records = ''}) {
+export function renderHome({t, latest, counts, hero = '', findings = null, dataRelease = null, records = '', checks = []}) {
   const primer = [
     ['★', t('Star', '星'), t('One research work, its preprint and published versions joined.', '一项研究工作，预印本与正式发表版本合并为一颗星。'), t('Open it to see its routes and the sentences behind them.', '点开它，查看它的航线和背后的原句。')],
-    ['◌', t('Cluster', '星团'), t(`A research line: one of the ${counts.clusters} topics. A work can belong to several.`, `一条研究线：${counts.clusters} 个主题之一。一项工作可以属于多个星团。`), t('Find where a question lives and who works on it.', '找到一个问题所在的区域，以及谁在做。')],
-    ['◎', t('Galaxy', '星系'), t(`A big direction: one of the ${counts.galaxies} theme groups.`, `一个大方向：${counts.galaxies} 个主题大类之一。`), t('Follow growth and change at the level of directions.', '在方向层面看增长与变化。')],
-    ['⁘', t('Candidate cluster', '候选星团'), t('A group found automatically from paper content; a candidate, not an expert taxonomy.', '根据论文内容自动发现的分组；只是候选，不是专家分类。'), t('Spot an emerging thread before it has a name.', '在新方向还没有名字时发现它。')],
+    ['◎', t('Cluster and galaxy', '星团与星系'), t(`A cluster is a research line, one of ${counts.clusters}; clusters group into ${counts.galaxies} galaxies, the big directions. A work can belong to several clusters.`, `星团是一条研究线，共 ${counts.clusters} 条；星团归入 ${counts.galaxies} 个星系，也就是大方向。一项工作可以属于多个星团。`), t('Find where a question lives, who works on it, and how directions grow.', '找到一个问题在哪里、谁在做，以及各个方向怎样增长。')],
     ['→', t('Route', '航线'), t('An observed relation with its source: a citation, or a benchmark used in an experiment.', '有出处的观测关系：一次引用，或一次在实验中使用的基准。'), t('Trace why two works are linked, down to the sentence.', '追溯两项工作为何相连，直到原文那一句。')],
     ['✦', t('Brightness', '亮度'), t('How salient a work is for a question, in one band: influence, bridge, resource or latest.', '一项工作对某个问题、在某个波段下的显著程度：影响、桥梁、资源或最新。'), t('Choose starting points for a purpose instead of reading one leaderboard.', '按目的挑选起点，而不是看一个总排行榜。')],
     ['✧', t('New star', '新星'), t('A work less than six months old. Its light is still on its way: few citations does not mean dim.', '不足 6 个月的工作。它的光还在路上：引用少不等于暗。'), t('Recent work is compared only with its own cohort, so it is not buried.', '新作只与同期比较，所以不会被埋没。')],
   ];
   return `${hero}<div class="home">
-  <section class="home-lenses" id="home-lenses" aria-labelledby="home-lenses-title">
-    <div class="home-head"><span class="home-kicker">${t(`${['', 'ONE', 'TWO', 'THREE', 'FOUR', 'FIVE', 'SIX', 'SEVEN', 'EIGHT'][cards.length] || cards.length} WAYS IN`, `${['', '一', '两', '三', '四', '五', '六', '七', '八'][cards.length] || cards.length}个切入视角`)}</span><h2 id="home-lenses-title">${t('Start from a question', '从一个问题出发')}</h2>
-    <p>${t('Each lens is a short list of questions. The answer under each question is computed from the data in the current analysis version (updated monthly after review); open it for the evidence.', '每个视角是一组问题。每个问题下的回答由当前分析版本根据数据计算（每月复核后更新）；点开即可查看证据。')}</p></div>
-    <div class="home-cards">${cards.map((c, i) => `<button class="home-card" data-home-lens="${c.id}" style="--i:${i}"><span class="home-card-name">${esc(c.name)}</span><span class="home-card-lead">${esc(c.lead)}</span><b>${esc(c.question)}</b><em>${esc(c.answer)}</em><span class="home-card-go">${t('Open the lens', '进入视角')} →</span></button>`).join('')}</div>
-  </section>
-  <section class="home-primer" aria-labelledby="home-primer-title">
+  <section class="home-primer" id="home-lenses" aria-labelledby="home-primer-title">
     <div class="home-head"><span class="home-kicker">${t('HOW TO READ THE UNIVERSE', '怎样读这片宇宙')}</span><h2 id="home-primer-title">${t('Seven words, and what each is for', '七个词，各有什么用')}</h2>
     <p>${t(`${counts.works.toLocaleString()} works on the safety and security of AI agents, linked by ${counts.routes.toLocaleString()} observed routes. The words below come from astronomy; each maps to something you can count and check.`, `${counts.works.toLocaleString()} 项关于 AI agent 安全的研究工作，由 ${counts.routes.toLocaleString()} 条观测到的航线相连。下面这些词借自天文学，每个都对应一个可以计数、可以核查的东西。`)}</p></div>
     <div class="home-terms">${primer.map(([g, name, what, use]) => `<article class="home-term"><span class="home-glyph" aria-hidden="true">${g}</span><h3>${name}</h3><p>${what}</p><p class="home-use"><b>${t('Use it to', '用来')}</b> ${use}</p></article>`).join('')}</div>
     <div class="home-principles"><article><h3>${t('Gravity only from observed routes', '引力只来自观测到的航线')}</h3><p>${t('A bright star does not mean others follow it, and closeness on the map does not mean one line of work descends from another. Only citations and recorded uses connect works.', '一颗星再亮，也推不出别的星在围着它转；星图上靠得近，也不等于思想上一脉相承。只有引用和有记录的采用才连接工作。')}</p></article>
     <article><h3>${t('Brightness depends on the observer', '亮度取决于观测者')}</h3><p>${t('The same work is a first-magnitude star in its own cluster and background in the next; switch the band and a different set of stars lights up. Every snapshot is dated, so you can compare it with the last one.', '同一项工作，在它所在的星团里是一等亮星，换一个星团看可能只是背景；换一个波段，亮起来的是另一批星。每张星图都注明日期，可以与上一期对照。')}</p></article></div>
-    ${findings ? mechanisms(t, findings, dataRelease) : ''}
+    ${findings ? mechanisms(t, findings, dataRelease, checks) : ''}
   </section>
   ${records || ''}
   ${latest || ''}
@@ -54,7 +47,7 @@ export function renderHome({t, cards, latest, counts, hero = '', findings = null
 const BANDS = ['foundation', 'influence', 'bridge', 'resource', 'latest'];
 const bandLabel = (t, b) => ({foundation: t('Foundation', '奠基'), influence: t('Influence', '影响'), bridge: t('Bridge', '桥梁'), resource: t('Resource', '资源'), latest: t('Latest', '最新')}[b]);
 const pct = (v, d = 1) => v == null ? '—' : Number(v).toFixed(d) + '%';
-function mechanisms(t, F, dataRelease) {
+function mechanisms(t, F, dataRelease, checks = []) {
   const s = F.rq1.bands.summary, m = F.meta, pilot = Object.fromEntries(F.rq1.pilot.table.map(r => [r.ranker, r]));
   const sal = pilot.salience || {}, cit = pilot.citations || {};
   const bars = [[t('All works', '全部工作'), s.novaShareCorpus, ''],
@@ -79,7 +72,7 @@ function mechanisms(t, F, dataRelease) {
      <p class="home-demo-note">${t('Same cluster, different band: a different set of stars lights up. Each reason is a count you can open.', '同一个星团，换一个波段，亮起来的是另一批星。每条理由都是一个可以点开核对的计数。')}</p>
     </div>
     <p class="home-mech-stat">${t(`Across the ${m.clusters.length} clusters, the top 10 of the foundation, influence, bridge and resource bands overlap by only ${pct(100 * s.meanBandOverlap)} on average: there are at least four kinds of "important".`, `在全部 ${m.clusters.length} 个星团里，奠基、影响、桥梁、资源四个波段的前 10 名平均只重合 ${pct(100 * s.meanBandOverlap)}：“重要”至少有四种。`)}</p>
-    <div class="home-mech-go"><button class="hs-btn is-primary" data-view="explore">${t('Try it with your question on Paths', '带着问题去路径页试试')} →</button><button class="hs-btn" data-home-goto="navigate:bands">${t('Evidence', '看证据')} →</button></div>
+    <div class="home-mech-go"><button class="hs-btn is-primary" data-view="explore">${t('Try it with your question on Paths', '带着问题去路径页试试')} →</button><button class="hs-btn" data-home-ev="bands" aria-expanded="false">${t('Evidence', '看证据')} ↓</button></div>
    </article>
    <article class="home-mech" aria-labelledby="home-nova-title">
     <span class="home-mech-kicker">${t('NEW STARS', '新星机制')}</span>
@@ -94,9 +87,15 @@ function mechanisms(t, F, dataRelease) {
      <li><b>${t('It grows up', '会长大')}</b><span>${t(`After ${m.novaMonths} months the ring goes and it is compared like every other work.`, `满 ${m.novaMonths} 个月后光环消失，和其他工作一样比较。`)}</span></li>
     </ol>
     <p class="home-mech-stat">${t(`Tested on ${F.rq1.pilot.surveys} held-out surveys: in the top 20 of navigation salience, recent works make up ${pct(100 * sal.nova20)}, against ${pct(100 * cit.nova20)} when ranked by citations, while salience still finds ${pct(100 * sal.recall50)} of each survey's references in its top 50 (citations: ${pct(100 * cit.recall50)}).`, `在 ${F.rq1.pilot.surveys} 篇留出综述上检验：按导航显著度排的前 20 中，近期工作占 ${pct(100 * sal.nova20)}，按引用数排只有 ${pct(100 * cit.nova20)}；同时显著度在前 50 中找回了每篇综述 ${pct(100 * sal.recall50)} 的参考文献（按引用数：${pct(100 * cit.recall50)}）。`)}</p>
-    <div class="home-mech-go"><button class="hs-btn" data-home-goto="navigate:nova">${t('Evidence', '看证据')} →</button><button class="hs-btn" data-home-goto="navigate:pilot">${t('How it was tested', '怎么检验的')} →</button></div>
+    <div class="home-mech-go"><button class="hs-btn" data-home-ev="nova" aria-expanded="false">${t('Evidence', '看证据')} ↓</button><button class="hs-btn" data-home-ev="pilot" aria-expanded="false">${t('How it was tested', '怎么检验的')} ↓</button></div>
    </article>
+   ${checks.map(([qid, q, a]) => `<article class="home-mech is-wide" aria-labelledby="home-check-${qid}">
+    <span class="home-mech-kicker">${t('PLATFORM CHECK', '平台检验')}</span>
+    <h3 id="home-check-${qid}">${q}</h3><p>${esc(a)}</p>
+    <div class="home-mech-go"><button class="hs-btn is-primary" data-home-ev="${qid}" aria-expanded="false">${t('Evidence', '看证据')} ↓</button></div>
+   </article>`).join('')}
   </div>
+  <div class="home-ev-box" data-home-ev-box hidden></div>
   <p class="home-mech-version">${t(`Numbers in these two cards: analysis version ${esc(m.analysisVersion || '')}, computed on data release ${esc(m.release)} (works through ${esc(m.cutoff)}).`, `这两张卡片里的数字来自分析版本 ${esc(m.analysisVersion || '')}，基于数据版本 ${esc(m.release)}（工作截至 ${esc(m.cutoff)}）。`)}${dataRelease && dataRelease.release !== m.release ? t(` Papers, the sky and the counts above are already on data release ${esc(dataRelease.release)}; analysis versions follow monthly after review.`, `论文、星空和上方的计数已更新到数据版本 ${esc(dataRelease.release)}；分析版本每月复核后更新。`) : ''} <a href="#updates">${t('About the two versions', '关于两种版本')} →</a></p>`;
 }
 
