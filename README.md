@@ -1,9 +1,14 @@
-# Agent Safety Atlas: frozen version
+# Agent Safety Atlas · review copy
 
-A frozen copy of the Agent Safety Atlas website: analysis version A7.1 on data release R071 (data through 2026-10-15).
-This copy does not change; the live site is updated with each data release.
+A static, frozen copy of the Agent Safety Atlas for the anonymous review of the paper *Agent Safety Atlas: Mapping Research
+Trends and Opportunities in a Rapidly Evolving Field*. It does not update.
 
-Site: https://agentsafetyatlas-deploy.github.io/agent_safety_atlas_v1/
-Paper package (recomputes the paper's analyses; no full texts or embeddings): package/agent-safety-atlas-A7.1-paper-package.zip
+- **Universe, Paths, Explore** show the paper's frozen field map (map v2, frozen 24 October 2026): 5,378 works first
+  published through 30 September 2026, 14 themes and 61 consensus clusters.
+- **RQ1, RQ2, RQ3** follow Sections 4–6 of the paper with their counts, denominators and source records.
+- **Evidence** links each statement to the table and records behind it; **Data & versions** lists the populations and
+  data versions (data release R071, label snapshot A7.2).
+- **Papers** lists the 5,782 works of the scope-v5 collection, including works first published after the field cutoff.
+- The `tables/` folder holds the CSV files linked from the pages.
 
-Bulk data downloads are not included.
+Open `index.html` through any static web server, or browse the published site.
